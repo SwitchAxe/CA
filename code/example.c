@@ -14,9 +14,9 @@ int LST(int size, cell** cellmap, int x, int y)
 
 void newGeneration(int size, cell** cellmap)
 {
-    cycleX(size)
+    loopX(size)
     {
-        cycleY(size)
+        loopY(size)
         {
             if (C.oS) {continue;}
             if (LST(SIZE, cellmap, x, y) == 1)

@@ -32,13 +32,28 @@ __fillCharmap(int size, char** charmap, FILE* file);__:
 fills _charmap_ with all the contents of _file_ via a sequence of fscanf()s in a for loop. 
 refer to the code for details.  
 
-__cellMapFromCharmap(int size, char** charmap, cell** cellmap);__  
+__cellmapFromCharmap(int size, char** charmap, cell** cellmap);__  
 
-maps each character in the _charmap_ (which we copied from the input file) to _cellmap_ using 
+maps each character in the _charmap_ (which we copied from the input file) to each cell in  _cellmap_ using 
 the following relation:  
 
 
 
 __1__ -> __true__, __0__ -> __false__  
 
+__updateOldStates(int size, cell** cellmap)__:  
+
+copies the new state of each cell to its old state.  
+
+## Macros
+
+	#define C cellmap[x][y] //center of the neighborhood
+	#define N cellmap[x][y-1] //North direction   
+	#define NW cellmap[x-1][y-1] //North-West direction
+	#define NE cellmap[x+1][y-1] //North-east direction 
+	#define E  cellmap[x-1][y] //East direction
+	#define W  cellmap[x+1][y] //West direction
+	#define S  cellmap[x][y+1] //South direction 
+	#define SW cellmap[x-1][y+1] //South-West direction
+	#define SE cellmap[x+1][y+1] //South-East direction
 

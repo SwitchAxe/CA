@@ -13,8 +13,8 @@
 	#define SE cellmap[x+1][y+1] //South-East direction
 
 	//defining the macro functions for easier and more readable loops
-	#define cycleX(size) for (int x = 0; x < (size); x++)
-	#define cycleY(size) for (int y = 0; y < (size); y++)
+	#define loopX(size) for (int x = 0; x < (size); x++)
+	#define loopY(size) for (int y = 0; y < (size); y++)
 
 
 	//oS is the old state of the cell, nS is the new state.
@@ -35,9 +35,9 @@
 	
 	void cellmapFromCharmap(int size, char** charmap, cell** cellmap)
 	{
-		cycleX(size)
+		loopX(size)
 		{
-			cycleY(size)
+			loopY(size)
 			{
 				C.oS = (charmap[x][y] == '1') ? true : false; 
 			}
@@ -46,9 +46,9 @@
 	
 	void updateOldStates(int size, cell** cellmap)
 	{
-		cycleX(size)
+		loopX(size)
 		{
-			cycleY(size)
+			loopY(size)
 			{
 				C.oS = C.nS;
 			}
@@ -58,9 +58,9 @@
 	void printCellmap(int size, cell** cellmap)
 	{
 		printf("\033[0;0H\033[0;0f");
-		cycleX(size)
+		loopX(size)
 		{
-			cycleY(size)
+			loopY(size)
 			{
 				printf("%c", (C.nS == true) ? 'x' : ' ');
 			}
