@@ -24,52 +24,60 @@
 		bool nS;
 	} cell;
 
-	void clearScreen()
-	{
-		printf("\033[0;0H\033[0;0f");
-	}
 
-	void printCellmap(int size, cell cellmap[size][size])
-	{
-		
-		for (int x = 0; x < size; x++)
-		{
-			for (int y = 0; y < size; y++)
-			{
-				printf("%c", (C.oS == true) ? 'x' : ' ');
-			}
-			printf("\n");
-		}
-	}
-	void updateCellmap(int size, cell (*cellmap)[size][size])
-	{
-		for (int x = 0; x < size; x++)
-		{
-			for (int y = 0; y < size; y++)
-			{
-				C->oS = C->nS;
-			}
-		}
-	}
-
-	void fillCharmap(int size, char (*charmap)[size][size], FILE* file)
+	void fillCharmap(int size, char** charmap, FILE* file)
 	{
 		for (int i = 0; i < size; i++)
 		{
-			fscanf(file, "%s", *charmap[i]);
+			fscanf(file, "%s", charmap[i]);
 		}
 	}
-
-	void CellmapFromCharmap(int size, 
-							cell (*cellmap)[size][size],
-							char (*charmap)[size][size])
+	
+	void cellmapFromCharmap(int size, char** charmap, cell** cellmap)
 	{
 		cycleX(size)
 		{
 			cycleY(size)
 			{
-				C->oS = (*charmap[x][y] == '1') ? true : false;
+				C.oS = (charmap[x][y] == '1') ? true : false; 
 			}
 		}
 	}
+	
+	void updateOldStates(int size, cell** cellmap)
+	{
+		cycleX(size)
+		{
+			cycleY(size)
+			{
+				C.oS = C.nS;
+			}
+		}
+	}
+	
+	void printCellmap(int size, cell** cellmap)
+	{
+		printf("\033[0;0H\033[0;0f");
+		cycleX(size)
+		{
+			cycleY(size)
+			{
+				printf("%c", (C.nS == true) ? 'x' : ' ');
+			}
+			printf("\n");
+		}
+	}
+
+	void printCharmap(int size, char** charmap)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			for (int e = 0; e < size; e++)
+			{
+				printf("%c", charmap[i][e]);
+			}
+			printf("\n");
+		}
+	}
+
 #endif

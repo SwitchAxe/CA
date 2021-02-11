@@ -3,29 +3,29 @@
 #include <unistd.h>
 #define SIZE 24
 
-int LST(int size, cell cellmap[size][size], int x, int y)
+int LST(int size, cell** cellmap, int x, int y)
 {
     //Local State Function 	
 	int adjcnt = 0;
 	if ((x-1 >= 0) && (y-1 >= 0) && NW.oS) adjcnt++;
-	if ((y+1 < SIZE) && (x-1 >= 0) && SW.oS) adjcnt++;
+	if ((y+1 < size) && (x-1 >= 0) && SW.oS) adjcnt++;
 	return adjcnt;
 }
 
-void updateStates(int size, cell (*cellmap)[size][size])
+void newGeneration(int size, cell** cellmap)
 {
     cycleX(size)
     {
         cycleY(size)
         {
-            if (C->oS) {continue;}
-            if (LST(SIZE, *cellmap, x, y) == 1)
+            if (C.oS) {continue;}
+            if (LST(SIZE, cellmap, x, y) == 1)
             {
-                C->nS = true;
+                C.nS = true;
             }
             else
             {
-                C->nS = false;
+                C.nS = false;
             }
         }
     }
@@ -33,24 +33,31 @@ void updateStates(int size, cell (*cellmap)[size][size])
 
 int main()
 {
-    cell cellmap[SIZE][SIZE] = {0};
+    cell** cellmap = (cell**) malloc(SIZE*sizeof(cell*));
+    for (int i = 0; i < SIZE; i++)
+    {
+        cellmap[i] = (cell*) malloc(SIZE*sizeof(cell));
+    }
     
-    char charmap[SIZE][SIZE] = {0};
+    char** charmap = (char**) malloc(SIZE*sizeof(char*));
+    for (int i = 0; i < SIZE; i++)
+    {
+        charmap[i] = (char*) malloc(SIZE*sizeof(char));
+    }
     FILE* file = fopen("example_input", "r");
     
     if (file == NULL) {printf("error opening the file"); exit(1);}
-    fillCharmap(SIZE, &charmap, file);
-    printf("got here!\n");
-    CellmapFromCharmap(SIZE, &cellmap, &charmap);
-    while (true)
-    {
-        clearScreen();
-        
-        updateCellmap(SIZE, &cellmap);
-        updateStates(SIZE, &cellmap);
-        printCellmap(SIZE, cellmap);
-        usleep(100000);
-    }
+    fillCharmap(SIZE, charmap, file);
+    cellmapFromCharmap(SIZE, charmap, cellmap);
+    
+        while (true)
+        {
+            //printCharmap(SIZE, charmap);
+            newGeneration(SIZE, cellmap);
+            updateOldStates(SIZE, cellmap);
+            printCellmap(SIZE, cellmap);
+            usleep(1000000);
+        }
 
     return 0;
 }
