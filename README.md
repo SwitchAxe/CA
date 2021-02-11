@@ -7,14 +7,14 @@ a pretty bad header for building cellular automata
 the header contains a struct that characterizes each cell with 2 states that can either be 
 dead (false) or alive (true). the struct is hence defined as follows:
 
-__typedef struct  
+	typedef struct  
 
-{  
+	{  
 
-	bool oS; //old state, see the functions for a clearer view on its role.  	
-	bool nS; //new state.  
+		bool oS; //old state, see the functions for a clearer view on its role.  	
+		bool nS; //new state.  
 	
-};__  
+	};  
 
  
 
