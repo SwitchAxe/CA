@@ -9,7 +9,6 @@ dead (false) or alive (true). the struct is hence defined as follows:
 
 	typedef struct  
 	{  
-
 		bool oS; //old state, see the functions for a clearer view on its role.  	
 		bool nS; //new state.  
 	};  
